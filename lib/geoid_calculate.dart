@@ -239,23 +239,24 @@ class GeoidCalculate {
     final endLat = geoidPoints.last.latitude; // 최소 위도
     final startLon = geoidPoints.first.longitude; // 최소 경도
     final endLon = geoidPoints.last.longitude; // 최대 경도
-    final step = 0.01636;
-    final lonCountPerRow = 490;
 
-    // 1. 찾으려는 좌표가 데이터 범위 내에 있는지 확인
+    final step = 0.01636; // 위,경도 간격
+    final lonCountPerRow = 490; // 행 offset
+
+    // 데이터 범위 내 좌표인지 확인
     if (lat > startLat || lat < endLat || lon < startLon || lon > endLon) {
       log("$startLat");
       log("$endLat");
       log("$startLon");
       log("$endLon");
-      throw Exception("요청 좌표 ($lat, $lon)가 데이터 범위를 벗어났습니다.");
+      throw Exception("요청 좌표가 데이터 범위를 벗어났습니다 ($lat, $lon)");
     }
 
-    // 2. 행(row)과 열(column) 인덱스를 산술적으로 계산
+    // 그리드 간격으로 나눠서 인덱스 추출
     final rowIndex = ((startLat - lat) / step).floor();
     final colIndex = ((lon - startLon) / step).floor();
 
-    // 3. 1차원 리스트의 인덱스 계산 (결과 사각형의 좌상단 점)
+    // 1차원 리스트의 인덱스 계산 (결과 사각형의 좌상단 점)
     final p11Index = (rowIndex * lonCountPerRow) + colIndex;
 
     // 계산된 인덱스가 데이터 크기를 초과하지 않는지 최종 확인
