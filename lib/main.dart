@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:search_and_interpolation_example/home_view.dart';
+import 'package:provider/provider.dart';
+import 'package:search_and_interpolation_example/geoid_view.dart';
+import 'package:search_and_interpolation_example/geoid_view_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +18,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: HomeView(),
+      home: ChangeNotifierProvider(
+        create: (context) => GeoidViewModel(),
+        builder: (context, child) {
+          return GeoidView();
+        },
+      ),
     );
   }
 }
