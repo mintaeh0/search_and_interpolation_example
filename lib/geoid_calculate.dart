@@ -294,8 +294,8 @@ class GeoidCalculate {
   }
 
   // 보간 함수
-  double _lerp(double x, double x1, double x2, double y1, double y2) {
-    if ((x2 - x1).abs() < 1e-10) return y1; // 0 나눗셈 방지
-    return y1 + (y2 - y1) * ((x - x1) / (x2 - x1));
+  double _lerp(double x, double x1, double x2, double h1, double h2) {
+    if ((x2 - x1).abs() < 1e-10) return h1; // 0 나눗셈 방지
+    return h1 + (h2 - h1) * ((x - x1) / (x2 - x1));
   }
 }
