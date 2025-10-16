@@ -284,13 +284,18 @@ class GeoidCalculate {
     final lat2 = p22.latitude;
     final lon1 = p11.longitude;
     final lon2 = p22.longitude;
+    
+    final gh11 = p11.geoidHeight;
+    final gh12 = p22.geoidHeight;
+    final gh21 = p11.geoidHeight;
+    final gh22 = p22.geoidHeight;
 
     // 경도 기준 1차 보간
-    final f1 = _lerp(lon, lon1, lon2, p11.geoidHeight, p12.geoidHeight);
-    final f2 = _lerp(lon, lon1, lon2, p21.geoidHeight, p22.geoidHeight);
+    final i1 = _lerp(lon, lon1, lon2, gh11, gh12);
+    final i2 = _lerp(lon, lon1, lon2, gh21, gh22);
 
     // 위도 기준 2차 보간
-    return _lerp(lat, lat1, lat2, f1, f2);
+    return _lerp(lat, lat1, lat2, i1, i2);
   }
 
   // 보간 함수
