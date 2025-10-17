@@ -50,13 +50,16 @@ class GeoidCalculate {
     final double lat = latLng.latitude;
     final double lon = latLng.longitude;
 
-    final List<GeoidPoint> points = _findBoundingPoints3(lat, lon); // 선형탐색 버전
-    // final List<GeoidPoint> points = _findBoundingPoints2(lat, lon); // 이진탐색 버전
+    final List<GeoidPoint> points = _findBoundingPointsGrid(
+      lat,
+      lon,
+    ); // 선형탐색 버전
+    // final List<GeoidPoint> points = _findBoundingPointsBinary(lat, lon); // 이진탐색 버전
     return _bilinearInterpolation(lat, lon, points);
   }
 
   // 선형탐색으로 주어진 포인트를 감싸는 4개의 꼭짓점 찾기
-  List<GeoidPoint> _findBoundingPoints(double lat, double lon) {
+  List<GeoidPoint> _findBoundingPointsLinear(double lat, double lon) {
     // Set 사용 중복 제거
     final Set<double> latSet = geoidPoints.map((p) => p.latitude).toSet();
     final Set<double> lonSet = geoidPoints.map((p) => p.longitude).toSet();
@@ -105,7 +108,7 @@ class GeoidCalculate {
   }
 
   // 이진탐색으로 주어진 포인트를 감싸는 4개의 꼭짓점 찾기
-  List<GeoidPoint> _findBoundingPoints2(double lat, double lon) {
+  List<GeoidPoint> _findBoundingPointsBinary(double lat, double lon) {
     if (geoidPoints.isEmpty) {
       throw Exception("데이터가 로드되지 않았습니다.");
     }
@@ -234,7 +237,7 @@ class GeoidCalculate {
   }
 
   // 그리드 간격을 이용한 탐색
-  List<GeoidPoint> _findBoundingPoints3(double lat, double lon) {
+  List<GeoidPoint> _findBoundingPointsGrid(double lat, double lon) {
     final startLat = geoidPoints.first.latitude; // 최대 위도 - 내림차순이기 때문에 처음 값
     final endLat = geoidPoints.last.latitude; // 최소 위도
     final startLon = geoidPoints.first.longitude; // 최소 경도
@@ -284,7 +287,7 @@ class GeoidCalculate {
     final lat2 = p22.latitude;
     final lon1 = p11.longitude;
     final lon2 = p22.longitude;
-    
+
     final gh11 = p11.geoidHeight;
     final gh12 = p22.geoidHeight;
     final gh21 = p11.geoidHeight;
