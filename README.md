@@ -15,3 +15,8 @@
 `geoid_point.dart` : 지오이드 모델에 정의된 각 포인트 정보를 담을 dto  
 `geoid_view.dart` : 데이터를 보여주기 위한 View  
 `geoid_view_model.dart` : 로직이 담긴 ViewModel  
+
+## 알고리즘 설명
+핵심인 `geoid_calculate.dart`에서 '탐색 알고리즘' 로직만 설명하겠습니다
+
+선형탐색, 이진탐색, 그리드 간격을 이용한 인덱스 탐색
